@@ -21,7 +21,15 @@ export const ModalImg = styled.img`
 `;
 export const ShowPrevImg = styled(FiChevronLeft)`
   cursor: pointer;
+  transition: transform 0.25s;
+  :hover {
+    transform: scale(1.4);
+  }
 `;
 export const ShowNextImg = styled(FiChevronRight)`
   cursor: pointer;
+  transition: transform 0.25s;
+  :hover {
+    transform: scale(1.4);
+  }
 `;
