@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   ModalOverlay,
@@ -11,68 +11,133 @@ import { createPortal } from 'react-dom';
 import { object } from 'yup';
 
 const modalRoot = document.querySelector('#modal-root');
-export class Modal extends React.Component {
-  static propTypes = {
-    whenClose: PropTypes.func.isRequired,
-    changeZoomImage: PropTypes.func.isRequired,
-    data: PropTypes.arrayOf(object).isRequired,
-    indx: PropTypes.number.isRequired,
-  };
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-    window.addEventListener('keydown', this.scrollImgByKeyDown);
-  }
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-    window.removeEventListener('keydown', this.scrollImgByKeyDown);
-  }
-  scrollImgByKeyDown = event => {
-    if (
-      event.code === 'ArrowRight' &&
-      this.props.indx + 1 !== this.props.data.length
-    ) {
-      this.props.changeZoomImage(+1);
+
+export function Modal({ whenClose, data, indx, changeZoomImage }) {
+  const scrollImgByKeyDown = event => {
+    if (event.code === 'ArrowRight' && indx + 1 !== data.length) {
+      changeZoomImage(+1);
     }
-    if (event.code === 'ArrowLeft' && this.props.indx !== 0) {
-      this.props.changeZoomImage(-1);
+    if (event.code === 'ArrowLeft' && indx !== 0) {
+      changeZoomImage(-1);
     }
   };
-  handleKeyDown = event => {
+  const handleKeyDown = event => {
     if (event.code === 'Escape') {
-      // console.log(`Escape нажали`);
-      this.props.whenClose();
+      whenClose();
     }
   };
-  handleBackDropClick = event => {
+  const handleBackDropClick = event => {
     if (event.currentTarget === event.target) {
-      this.props.whenClose();
+      whenClose();
     }
   };
 
-  render() {
-    const { indx, data, changeZoomImage } = this.props;
-    const { largeImageURL, tags } = data[indx];
-    return createPortal(
-      <ModalOverlay onClick={this.handleBackDropClick}>
-        {indx !== 0 && (
-          <ShowPrevImg
-            size={55}
-            fill="#fff"
-            onClick={() => changeZoomImage(-1)}
-          />
-        )}
-        <ModalModal>
-          <ModalImg src={largeImageURL} alt={tags} />
-        </ModalModal>
-        {indx + 1 !== data.length && (
-          <ShowNextImg
-            size={55}
-            fill="#fff"
-            onClick={() => changeZoomImage(+1)}
-          />
-        )}
-      </ModalOverlay>,
-      modalRoot
-    );
-  }
+  const { largeImageURL, tags } = data[indx];
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', scrollImgByKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keydown', scrollImgByKeyDown);
+    };
+  });
+  return createPortal(
+    <ModalOverlay onClick={handleBackDropClick}>
+      {indx !== 0 && (
+        <ShowPrevImg
+          size={55}
+          fill="#fff"
+          onClick={() => changeZoomImage(-1)}
+        />
+      )}
+      <ModalModal>
+        <ModalImg src={largeImageURL} alt={tags} />
+      </ModalModal>
+      {indx + 1 !== data.length && (
+        <ShowNextImg
+          size={55}
+          fill="#fff"
+          onClick={() => changeZoomImage(+1)}
+        />
+      )}
+    </ModalOverlay>,
+    modalRoot
+  );
 }
+
+Modal.propTypes = {
+  whenClose: PropTypes.func.isRequired,
+  changeZoomImage: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf(object).isRequired,
+  indx: PropTypes.number.isRequired,
+};
+
+//----------
+//State
+//----------
+// const modalRoot = document.querySelector('#modal-root');
+// export class Modal extends React.Component {
+//   static propTypes = {
+//     whenClose: PropTypes.func.isRequired,
+//     changeZoomImage: PropTypes.func.isRequired,
+//     data: PropTypes.arrayOf(object).isRequired,
+//     indx: PropTypes.number.isRequired,
+//   };
+//   componentDidMount() {
+//     window.addEventListener('keydown', this.handleKeyDown);
+//     window.addEventListener('keydown', this.scrollImgByKeyDown);
+//   }
+//   componentWillUnmount() {
+//     window.removeEventListener('keydown', this.handleKeyDown);
+//     window.removeEventListener('keydown', this.scrollImgByKeyDown);
+//   }
+//   scrollImgByKeyDown = event => {
+//     if (
+//       event.code === 'ArrowRight' &&
+//       this.props.indx + 1 !== this.props.data.length
+//     ) {
+//       this.props.changeZoomImage(+1);
+//     }
+//     if (event.code === 'ArrowLeft' && this.props.indx !== 0) {
+//       this.props.changeZoomImage(-1);
+//     }
+//   };
+//   handleKeyDown = event => {
+//     if (event.code === 'Escape') {
+//       // console.log(`Escape нажали`);
+//       this.props.whenClose();
+//     }
+//   };
+//   handleBackDropClick = event => {
+//     if (event.currentTarget === event.target) {
+//       this.props.whenClose();
+//     }
+//   };
+
+//   render() {
+//     const { indx, data, changeZoomImage } = this.props;
+//     const { largeImageURL, tags } = data[indx];
+//     return createPortal(
+//       <ModalOverlay onClick={this.handleBackDropClick}>
+//         {indx !== 0 && (
+//           <ShowPrevImg
+//             size={55}
+//             fill="#fff"
+//             onClick={() => changeZoomImage(-1)}
+//           />
+//         )}
+//         <ModalModal>
+//           <ModalImg src={largeImageURL} alt={tags} />
+//         </ModalModal>
+//         {indx + 1 !== data.length && (
+//           <ShowNextImg
+//             size={55}
+//             fill="#fff"
+//             onClick={() => changeZoomImage(+1)}
+//           />
+//         )}
+//       </ModalOverlay>,
+//       modalRoot
+//     );
+//   }
+// }

@@ -7,10 +7,7 @@ import {
 export const ImageGalleryItem = ({ data, setZoomImage, indx }) => {
   // console.log(indx);
   return (
-    <ImageGalleryItemLi
-      className="gallery-item"
-      onClick={() => setZoomImage(indx)}
-    >
+    <ImageGalleryItemLi onClick={() => setZoomImage(indx)}>
       <ImageGalleryItemImg src={data.webformatURL} alt={data.tags} />
     </ImageGalleryItemLi>
   );
