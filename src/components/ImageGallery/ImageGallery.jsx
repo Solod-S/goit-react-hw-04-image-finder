@@ -2,19 +2,21 @@ import React from 'react';
 import { ImageGalleryList } from './ImageGallery.styled';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import PropTypes from 'prop-types';
-export const ImageGallery = ({ images, setZoomImage }) => {
 
+export const ImageGallery = ({ images, setZoomImage }) => {
   return (
-    <ImageGalleryList>
-      {images.map((image, indx) => (
-        <ImageGalleryItem
-          key={image.id}
-          data={image}
-          setZoomImage={setZoomImage}
-          indx={indx}
-        />
-      ))}
-    </ImageGalleryList>
+    <>
+      <ImageGalleryList>
+        {images.map((image, indx) => (
+          <ImageGalleryItem
+            key={image.id}
+            data={image}
+            setZoomImage={setZoomImage}
+            indx={indx}
+          />
+        ))}
+      </ImageGalleryList>
+    </>
   );
 };
 

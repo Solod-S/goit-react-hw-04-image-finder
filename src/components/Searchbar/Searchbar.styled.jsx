@@ -6,8 +6,8 @@ export const SearchBarHeader = styled.header`
   width: 100%;
   justify-content: center;
   justify-content: space-between;
-  background-color: #444444;
-  padding: 18px 50px;
+  background-color: ${p => p.theme.colors.secondaryBackGroundColor};
+  padding: 14px 50px;
   transition: padding 250ms linear;
 `;
 export const SearchBarPixabayLogo = styled.img`
@@ -30,7 +30,8 @@ export const SearchBarButton = styled.button`
   justify-content: center;
   display: flex;
   padding: 10px;
-  background-color: #d6d6d6;
+
+  background-color: ${p => p.theme.colors.primaryText};
   border: none;
   border-radius: 0 4px 4px 0;
   cursor: pointer;

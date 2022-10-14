@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 export const ImageGalleryItemLi = styled.li`
-  background-color: #d6d6d6;
+  color: ${p => p.theme.colors.primaryText};
   width: 350px;
   height: 233px;
-  margin: 15px;
+  margin: ${p => p.theme.space[4]}px;
 
-  border-radius: 4px;
+  border-radius: ${p => p.theme.radii.normal};
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
     1px 4px 6px rgba(0, 0, 0, 0.16);
 

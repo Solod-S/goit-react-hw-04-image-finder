@@ -1,12 +1,13 @@
 export const theme = {
   colors: {
     backGroundColor: '#E7ECF2',
-    secondaryBackGroundColor: '#F3F6F9',
+    secondaryBackGroundColor: '#444444',
     thrdBackGroundColor: '#ECF1F3',
-    primaryText: '#1F3349',
+    primaryText: '#d6d6d6',
     secondaryText: '#98A4AF',
     hoverBtnColor: 'red',
     errorMsgColor: 'red',
+    pixaBayColor: '#444444',
   },
   spacing: value => `${4 * value}px`,
   space: [0, 2, 4, 8, 16, 32, 64, 128, 256],

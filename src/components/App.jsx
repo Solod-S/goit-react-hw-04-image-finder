@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Searchbar from './Searchbar/Searchbar';
 import 'react-toastify/dist/ReactToastify.css';
+import 'animate.css';
 import { ErrorMsg } from './App.styled';
 import { GetImages } from './services/api';
 import { ImageGallery } from './ImageGallery/ImageGallery';
@@ -11,6 +12,8 @@ import { ScrollChevron } from './ScrollChevron/ScrollChevron';
 import { toast } from 'react-toastify';
 import { ToastContainer, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { warmSetting, successSettings } from './services/notificationSetting';
+import { Footer } from './Footer/Footer';
 
 function App() {
   const [images, setImages] = useState([]);
@@ -20,6 +23,7 @@ function App() {
   const [error, setError] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [zoomImage, setZoomImage] = useState(null);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     if (!searchQuery) {
@@ -40,38 +44,27 @@ function App() {
       );
       setImages(prevState => [...prevState, ...preparedImgs]);
       setIsLoading(false);
-
-      toast.success(
-        `Всего было найдено ${imagesResponse.data.totalHits} картинок.`,
-        {
-          position: 'bottom-right',
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-        }
-      );
+      setTotalPages(Math.ceil(imagesResponse.data.totalHits / 12));
+      if (page === 1) {
+        toast.success(
+          `Всего было найдено ${imagesResponse.data.totalHits} картинок.`,
+          successSettings
+        );
+      }
     }
     try {
       fetch();
     } catch (error) {
       console.log(error, `Попробуйте перезагрузить страницу`);
-      toast.warn('Упс... Попробуйте перезагрузить страницу!', {
-        position: 'bottom-right',
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-      });
+      toast.warn('Упс... Попробуйте перезагрузить страницу!', warmSetting);
       setError(error);
     }
   }, [searchQuery, page]);
 
   const handleFormSubmit = newSearchQuery => {
+    if (newSearchQuery === searchQuery) {
+      return;
+    }
     if (newSearchQuery !== searchQuery) {
       setImages([]);
     }
@@ -109,10 +102,10 @@ function App() {
         draggable={false}
         pauseOnHover
       />
-
       {error && (
         <ErrorMsg>Something wrong.. Press F5 and try again. :( </ErrorMsg>
       )}
+
       {images.length && (
         <ImageGallery
           images={images}
@@ -121,7 +114,9 @@ function App() {
         />
       )}
       {isLoading && <LoaderSpiner />}
-      {images.length > 11 && <Button onLoadMore={onLoadMore} />}
+      {images.length > 11 && totalPages !== page && (
+        <Button onLoadMore={onLoadMore} />
+      )}
       {images.length > 11 && <ScrollChevron />}
       {showModal && (
         <Modal
@@ -131,6 +126,10 @@ function App() {
           changeZoomImage={changeZoomImage}
         />
       )}
+
+      <Footer>Copyright © Все права защищены.</Footer>
+
+      {/* так как кнопка пропадает когда доходим до конца, мне нужен якорь для скрола по шеврону)) */}
     </div>
   );
 }

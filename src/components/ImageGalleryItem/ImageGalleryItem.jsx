@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import {
   ImageGalleryItemLi,
   ImageGalleryItemImg,
@@ -7,8 +8,12 @@ import {
 export const ImageGalleryItem = ({ data, setZoomImage, indx }) => {
   // console.log(indx);
   return (
-    <ImageGalleryItemLi onClick={() => setZoomImage(indx)}>
-      <ImageGalleryItemImg src={data.webformatURL} alt={data.tags} />
+    <ImageGalleryItemLi animate__wobble onClick={() => setZoomImage(indx)}>
+      <ImageGalleryItemImg
+        className="animate__animated animate__pulse"
+        src={data.webformatURL}
+        alt={data.tags}
+      />
     </ImageGalleryItemLi>
   );
 };

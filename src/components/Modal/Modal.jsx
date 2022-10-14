@@ -50,7 +50,7 @@ export function Modal({ whenClose, data, indx, changeZoomImage }) {
           onClick={() => changeZoomImage(-1)}
         />
       )}
-      <ModalModal>
+      <ModalModal className="animate__animated animate__pulse">
         <ModalImg src={largeImageURL} alt={tags} />
       </ModalModal>
       {indx + 1 !== data.length && (
