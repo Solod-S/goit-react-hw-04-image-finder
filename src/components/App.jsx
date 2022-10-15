@@ -22,7 +22,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [zoomImage, setZoomImage] = useState(null);
+  const [indx, setIndx] = useState(null);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
@@ -78,12 +78,12 @@ function App() {
     setShowModal(prevState => !prevState);
   };
 
-  const setZoomImageForModal = imageLink => {
-    setZoomImage(imageLink);
+  const setIndxForModal = imageLink => {
+    setIndx(imageLink);
     toggleModal();
   };
-  const changeZoomImage = value => {
-    setZoomImage(prevState => prevState + value);
+  const changeIndx = value => {
+    setIndx(prevState => prevState + value);
   };
 
   return (
@@ -105,12 +105,11 @@ function App() {
       {error && (
         <ErrorMsg>Something wrong.. Press F5 and try again. :( </ErrorMsg>
       )}
-
       {images.length && (
         <ImageGallery
           images={images}
           openModal={toggleModal}
-          setZoomImage={setZoomImageForModal}
+          setIndx={setIndxForModal}
         />
       )}
       {isLoading && <LoaderSpiner />}
@@ -122,13 +121,12 @@ function App() {
         <Modal
           whenClose={toggleModal}
           data={images}
-          indx={zoomImage}
-          changeZoomImage={changeZoomImage}
+          indx={indx}
+          changeIndx={changeIndx}
         />
       )}
 
       <Footer>Copyright © Все права защищены.</Footer>
-
       {/* так как кнопка пропадает когда доходим до конца, мне нужен якорь для скрола по шеврону)) */}
     </div>
   );

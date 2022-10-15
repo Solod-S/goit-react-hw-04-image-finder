@@ -3,7 +3,7 @@ import { ImageGalleryList } from './ImageGallery.styled';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import PropTypes from 'prop-types';
 
-export const ImageGallery = ({ images, setZoomImage }) => {
+export const ImageGallery = ({ images, setIndx }) => {
   return (
     <>
       <ImageGalleryList>
@@ -11,7 +11,7 @@ export const ImageGallery = ({ images, setZoomImage }) => {
           <ImageGalleryItem
             key={image.id}
             data={image}
-            setZoomImage={setZoomImage}
+            setIndx={setIndx}
             indx={indx}
           />
         ))}
@@ -29,5 +29,5 @@ ImageGallery.propTypes = {
       tags: PropTypes.string.isRequired,
     })
   ).isRequired,
-  setZoomImage: PropTypes.func.isRequired,
+  setIndx: PropTypes.func.isRequired,
 };

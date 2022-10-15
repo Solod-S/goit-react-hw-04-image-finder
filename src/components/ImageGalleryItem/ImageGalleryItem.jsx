@@ -5,10 +5,10 @@ import {
   ImageGalleryItemLi,
   ImageGalleryItemImg,
 } from './ImageGalleryItem.style';
-export const ImageGalleryItem = ({ data, setZoomImage, indx }) => {
+export const ImageGalleryItem = ({ data, setIndx, indx }) => {
   // console.log(indx);
   return (
-    <ImageGalleryItemLi animate__wobble onClick={() => setZoomImage(indx)}>
+    <ImageGalleryItemLi animate__wobble onClick={() => setIndx(indx)}>
       <ImageGalleryItemImg
         className="animate__animated animate__pulse"
         src={data.webformatURL}
@@ -24,5 +24,5 @@ ImageGalleryItem.propTypes = {
     largeImageURL: PropTypes.string.isRequired,
     tags: PropTypes.string.isRequired,
   }),
-  setZoomImage: PropTypes.func.isRequired,
+  setIndx: PropTypes.func.isRequired,
 };

@@ -12,13 +12,13 @@ import { object } from 'yup';
 
 const modalRoot = document.querySelector('#modal-root');
 
-export function Modal({ whenClose, data, indx, changeZoomImage }) {
+export function Modal({ whenClose, data, indx, changeIndx }) {
   const scrollImgByKeyDown = event => {
     if (event.code === 'ArrowRight' && indx + 1 !== data.length) {
-      changeZoomImage(+1);
+      changeIndx(+1);
     }
     if (event.code === 'ArrowLeft' && indx !== 0) {
-      changeZoomImage(-1);
+      changeIndx(-1);
     }
   };
   const handleKeyDown = event => {
@@ -44,21 +44,13 @@ export function Modal({ whenClose, data, indx, changeZoomImage }) {
   return createPortal(
     <ModalOverlay onClick={handleBackDropClick}>
       {indx !== 0 && (
-        <ShowPrevImg
-          size={55}
-          fill="#fff"
-          onClick={() => changeZoomImage(-1)}
-        />
+        <ShowPrevImg size={55} fill="#fff" onClick={() => changeIndx(-1)} />
       )}
       <ModalModal className="animate__animated animate__pulse">
         <ModalImg src={largeImageURL} alt={tags} />
       </ModalModal>
       {indx + 1 !== data.length && (
-        <ShowNextImg
-          size={55}
-          fill="#fff"
-          onClick={() => changeZoomImage(+1)}
-        />
+        <ShowNextImg size={55} fill="#fff" onClick={() => changeIndx(+1)} />
       )}
     </ModalOverlay>,
     modalRoot
@@ -67,7 +59,7 @@ export function Modal({ whenClose, data, indx, changeZoomImage }) {
 
 Modal.propTypes = {
   whenClose: PropTypes.func.isRequired,
-  changeZoomImage: PropTypes.func.isRequired,
+  changeIndx: PropTypes.func.isRequired,
   data: PropTypes.arrayOf(object).isRequired,
   indx: PropTypes.number.isRequired,
 };
